@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.fragment.app.Fragment;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.packcheng.base.component.BaseSupportFragment;
 import com.packcheng.base.provider.ARouterConstant;
 import com.packcheng.base.provider.IMainProvider;
 import com.packcheng.main.MainActivity;
@@ -25,7 +26,7 @@ public class MainProvider implements IMainProvider {
 
 
     @Override
-    public Fragment getMainFragment() {
+    public BaseSupportFragment getMainFragment() {
         return MainFragment.newInstance();
     }
 

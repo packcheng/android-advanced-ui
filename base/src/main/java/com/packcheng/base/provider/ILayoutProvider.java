@@ -8,23 +8,23 @@ import com.alibaba.android.arouter.facade.template.IProvider;
 import com.packcheng.base.component.BaseSupportFragment;
 
 /**
- * The provider of module_main
+ * The provider of module_layout
  *
  * @author packcheng
  * @date 2020-02-04 16:39
  */
-public interface IMainProvider extends IProvider {
+public interface ILayoutProvider extends IProvider {
     /**
-     * get the Fragment of main's page
+     * get the Fragment of layout's page
      *
      * @return
      */
-    BaseSupportFragment getMainFragment();
+    BaseSupportFragment getLayoutFragment();
 
     /**
-     * 打开MainActivity
+     * 打开LayoutActivity
      *
      * @param context
      */
-    void startMainActivity(Context context);
+    void startLayoutActivity(Context context);
 }

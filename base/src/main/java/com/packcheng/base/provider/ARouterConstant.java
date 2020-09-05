@@ -18,40 +18,13 @@ public class ARouterConstant {
     public static final String ROUTER_PATH_LOGIN_FRAGMENT_FORGET_PWD = "/login/fragment/forgetPwd";
 
     /**
-     * 测试模块测试Activity
-     */
-    public static final String ROUTER_PATH_TEST_ACTIVITY_TEST = "/test/activity/test";
-
-
-    /**
-     * 登录模块
-     */
-    public static final String ROUTER_PATH_PROVIDER_LOGIN = "/login/loginProvider";
-
-    /**
-     * 主页模块
-     */
-    public static final String ROUTER_PATH_PROVIDER_HOME = "/home/homeProvider";
-
-    /**
-     * 个人中心模块
-     */
-    public static final String ROUTER_PATH_PROVIDER_ME = "/me/meProvider";
-
-    /**
-     * 购物车模块
-     */
-    public static final String ROUTER_PATH_PROVIDER_CART = "/cart/cartProvider";
-
-    /**
-     * 测试模块
-     */
-    public static final String ROUTER_PATH_PROVIDER_TEST = "/test/testProvider";
-
-
-    /**
      * Main模块
      */
     public static final String ROUTER_PATH_PROVIDER_MAIN = "/main/mainProvider";
+
+    /**
+     * layout模块测试Activity
+     */
+    public static final String ROUTER_PATH_PROVIDER_LAYOUT = "/layout/layoutProvider";
 
 }

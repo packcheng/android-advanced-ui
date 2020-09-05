@@ -1,15 +1,16 @@
-if (rootProject.ext.isApp.isMainApp) {
+if (rootProject.ext.isApp.isLayoutApp) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
 }
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
-        if (rootProject.ext.isApp.isMainApp) {
-            applicationId "${rootProject.ext.android.applicationId}main"
+        if (rootProject.ext.isApp.isLayoutApp) {
+            applicationId "${rootProject.ext.android.applicationId}layout"
         }
 
         minSdkVersion rootProject.ext.android.minSdkVersion
@@ -33,7 +34,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     // 使用dataBinding
     dataBinding {
         enabled = true
@@ -46,7 +46,7 @@ android {
     // 模块化资源文件
     sourceSets {
         main {
-            if (rootProject.ext.isApp.isMainApp) {
+            if (rootProject.ext.isApp.isLayoutApp) {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
@@ -54,11 +54,11 @@ android {
         }
     }
     // 模块化资源前缀
-    resourcePrefix rootProject.ext.resourcePrefix["moduleMain"]
+    resourcePrefix rootProject.ext.resourcePrefix["moduleLayout"]
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: "libs", include: ["*.jar"])
 
     testImplementation rootProject.ext.dependencies["junit"]
     androidTestImplementation rootProject.ext.dependencies["androidx-junit"]
@@ -66,9 +66,5 @@ dependencies {
 
     annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
 
-
     implementation project(path: ':base')
-    if (!rootProject.ext.isApp.isLayoutApp) {
-        implementation project(path: ":module_layout")
-    }
 }

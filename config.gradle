@@ -2,16 +2,18 @@ ext {
     // 模块是否独立运行的APP
     isApp = [
             isMainApp : false,
+            isLayoutApp : false,
     ]
     // 模块资源前缀
     resourcePrefix = [
-            moduleMain : "main_"
+            moduleMain : "main_",
+            moduleLayout : "layout_"
     ]
     // 相关Android版本
     android = [
             compileSdkVersion : 29,
             buildToolsVersion : "29.0.2",
-            applicationId     : "com.packcheng.",
+            applicationId     : "com.packcheng.advancedui.",
             minSdkVersion     : 26,
             targetSdkVersion  : 29,
             versionCode       : 1,
