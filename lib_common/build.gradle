@@ -1,0 +1,132 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner rootProject.ext.android.androidJUnitRunner
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", 'IS_DEBUG', 'true'
+        }
+
+        release {
+            buildConfigField "boolean", 'IS_DEBUG', 'false'
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    // 使用 JDK8
+    compileOptions {
+        sourceCompatibility rootProject.ext.compileOptions.sourceCompatibility
+        targetCompatibility rootProject.ext.compileOptions.targetCompatibility
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation rootProject.ext.dependencies["junit"]
+    androidTestImplementation rootProject.ext.dependencies["androidx-junit"]
+    androidTestImplementation rootProject.ext.dependencies["androidx-espresso-core"]
+
+    // androidx
+    api rootProject.ext.dependencies["appcompat"]
+    api rootProject.ext.dependencies["multidex"]
+    api rootProject.ext.dependencies["constraintlayout"]
+    api rootProject.ext.dependencies["recyclerview"]
+    api rootProject.ext.dependencies["v4"]
+
+    // ViewModel and LiveData
+    api rootProject.ext.dependencies["lifecycle-extensions"]
+    api rootProject.ext.dependencies["lifecycle-viewmodel"]
+    api rootProject.ext.dependencies["lifecycle-livedata"]
+
+    // rxjava and retrofit
+    api rootProject.ext.dependencies["rxjava"]
+    api rootProject.ext.dependencies["rxandroid"]
+    api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.dependencies["retrofit2-converter-gson"]
+    api rootProject.ext.dependencies["retrofit2-adapter-rxjava2"]
+
+    // rxbinding
+    api rootProject.ext.dependencies["rxbinding"]
+
+    // gson
+    api rootProject.ext.dependencies["gson"]
+
+    // recyclerview adapter
+    api rootProject.ext.dependencies["rv-adapter_helper"]
+
+    // AspectJ
+    api rootProject.ext.dependencies["aspectj"]
+
+    // ARouter
+    api rootProject.ext.dependencies["arouter-api"]
+
+    // StatusBarUtil
+    api rootProject.ext.dependencies["statusbar-util"]
+
+    // Fragmentation
+    api rootProject.ext.dependencies["fragmentationx"]
+    api rootProject.ext.dependencies["fragmentationx-swipeback"]
+
+}
+
+// AspectJ
+import com.android.build.gradle.LibraryPlugin
+import org.aspectj.bridge.IMessage
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.tools.ajc.Main
+
+android.libraryVariants.all { variant ->
+    LibraryPlugin plugin = project.plugins.getPlugin(LibraryPlugin)
+    JavaCompile javaCompile = variant.javaCompile
+    javaCompile.doLast {
+        String[] args = ["-showWeaveInfo",
+                         "-1.5",
+                         "-inpath", javaCompile.destinationDir.toString(),
+                         "-aspectpath", javaCompile.classpath.asPath,
+                         "-d", javaCompile.destinationDir.toString(),
+                         "-classpath", javaCompile.classpath.asPath,
+                         "-bootclasspath", plugin.project.android.bootClasspath.join(
+                File.pathSeparator)]
+
+        MessageHandler handler = new MessageHandler(true);
+        new Main().run(args, handler)
+
+        def log = project.logger
+        for (IMessage message : handler.getMessages(null, true)) {
+            switch (message.getKind()) {
+                case IMessage.ABORT:
+                case IMessage.ERROR:
+                case IMessage.FAIL:
+                    log.error message.message, message.thrown
+                    break;
+                case IMessage.WARNING:
+                case IMessage.INFO:
+                    log.info message.message, message.thrown
+                    break;
+                case IMessage.DEBUG:
+                    log.debug message.message, message.thrown
+                    break;
+            }
+        }
+    }
+}

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">base</string>
+    <string name="error_layout_not_found">Please override the method getContentView() or getContentViewLayoutID() to provide a layout for the Activity !!!</string>
+</resources>

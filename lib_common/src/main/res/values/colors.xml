@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f7f7f7</color>
+    <color name="colorPrimaryDark">#D5DBE2</color>
+    <color name="colorAccent">#495987</color>
+
+    <color name="main_bottom_tab_select">@color/colorAccent</color>
+    <color name="main_bottom_tab_nor">@color/txt_hint</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="red">#ff5252</color>
+    <color name="white">#ffffff</color>
+    <color name="lucency">#00ffffff</color>
+
+    <color name="et_cursor">#C8C8C8</color>
+    <color name="lucencyblack">#A0000000</color>
+
+    <color name="txt_hint">#bdbdbd</color>
+</resources>
