@@ -1,3 +1,5 @@
 <resources>
     <string name="layout_app_name">module_layout</string>
+    <string name="layout_text_test1">Test1</string>
+    <string name="layout_text_test2">Test2</string>
 </resources>
