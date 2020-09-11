@@ -1,19 +1,22 @@
 package com.packcheng.layout;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.View;
 
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.packcheng.base.component.BaseSupportFragment;
 import com.packcheng.base.mvvm.DefaultViewModel;
 import com.packcheng.base.mvvm.DefaultViewModelFactory;
+import com.packcheng.base.recyclerview.simple.SimpleBindModel;
+import com.packcheng.base.recyclerview.simple.SimpleItemAdapter;
+import com.packcheng.base.recyclerview.simple.SimpleItemBean;
 import com.packcheng.layout.databinding.LayoutFragmentMainBinding;
-import com.packcheng.layout.widget.WaterFlowLayout;
+import com.packcheng.layout.ui.WaterfallFragment;
 import com.packcheng.lib.common.util.LogUtils;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 /**
  * 布局模块Fragment
@@ -22,6 +25,9 @@ import java.util.Random;
  * @date 2020-02-04 13:42
  */
 public class LayoutFragment extends BaseSupportFragment<LayoutFragmentMainBinding, DefaultViewModel> {
+
+    private SimpleItemAdapter mAdapter;
+    private ArrayList<SimpleBindModel> mDataList;
 
     public static LayoutFragment newInstance() {
         return new LayoutFragment();
@@ -34,35 +40,44 @@ public class LayoutFragment extends BaseSupportFragment<LayoutFragmentMainBindin
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        addWaterFlowLayout();
+        initRecyclerView();
     }
 
     /**
-     * 通过代码的方式添加自定义流式布局
+     * 初始化RecyclerView相关数据
      */
-    private void addWaterFlowLayout() {
-        LogUtils.i(TAG, "addWaterFlowLayout");
-        WaterFlowLayout waterFlowLayout = new WaterFlowLayout(getContext());
-        TextView child;
-        StringBuilder sb = new StringBuilder();
-        Random colorRandom = new Random(255);
-        for (int i = 0; i < 20; i++) {
-            child = new TextView(getContext());
-            sb.append("child: ");
-            sb.append(i);
-            child.setText(sb.toString());
-            sb.delete(0, sb.length());
+    private void initRecyclerView() {
+        LogUtils.i(TAG, "initRecyclerView");
+        mAdapter = new SimpleItemAdapter();
+        mBinding.rvLayoutMain.setLayoutManager(new LinearLayoutManager(getContext()));
+        mBinding.rvLayoutMain.setAdapter(mAdapter);
+        mAdapter.setOnBindItemClick((View v, int position, SimpleBindModel model) -> {
+            LogUtils.i(TAG, "OnBindItemClick, position: " + position);
+            switch (position) {
+                case 0:
+                    start(WaterfallFragment.newInstance());
+                    break;
+                default:
+                    showTopTip(com.packcheng.lib.resource.R.string.function_unfinished);
+                    break;
+            }
 
-            child.setBackgroundColor(Color.rgb(colorRandom.nextInt(), colorRandom.nextInt(), colorRandom.nextInt()));
-            child.setTextColor(Color.WHITE);
-            child.setPadding(20, 10, 20, 10);
-            waterFlowLayout.addView(child);
-        }
-        mBinding.llRoot.addView(waterFlowLayout);
+        });
+    }
+
+    /**
+     * 初始化列表数据
+     */
+    private void initRecyclerData() {
+        LogUtils.i(TAG, "initRecyclerData");
+        mDataList = new ArrayList<>();
+        mDataList.add(new SimpleBindModel(new SimpleItemBean(getString(R.string.layout_function_waterfall))));
+        mAdapter.setNewData(mDataList);
     }
 
     @Override
     protected void initData() {
+        initRecyclerData();
     }
 
     @Override

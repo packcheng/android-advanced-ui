@@ -10,4 +10,6 @@
     <string name="layout_text_test8">Test8</string>
     <string name="layout_text_test9">Test9</string>
     <string name="layout_text_test10">Test10</string>
+
+    <string name="layout_function_waterfall">自定义流式布局</string>
 </resources>
