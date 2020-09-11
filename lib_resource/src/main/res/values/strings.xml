@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">lib_resource</string>
+
+    <string name="function_unfinished">功能暂未开发</string>
 </resources>

@@ -8,6 +8,13 @@ package com.packcheng.base.recyclerview.simple;
 public class SimpleItemBean {
     private String title;
 
+    public SimpleItemBean(String title) {
+        this.title = title;
+    }
+
+    public SimpleItemBean() {
+    }
+
     public String getTitle() {
         return title;
     }
