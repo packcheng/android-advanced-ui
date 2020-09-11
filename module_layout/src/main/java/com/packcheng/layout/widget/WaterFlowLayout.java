@@ -47,7 +47,7 @@ public class WaterFlowLayout extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        LogUtils.d(TAG, "onMeasure");
+        LogUtils.i(TAG, "onMeasure");
         // 父布局指定的测量方式
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
@@ -74,27 +74,20 @@ public class WaterFlowLayout extends ViewGroup {
             childWidth = child.getMeasuredWidth() + childParams.getMarginStart() + childParams.getMarginEnd();
             childHeight = child.getMeasuredHeight() + childParams.topMargin + childParams.bottomMargin;
 
-            if (childWidth + currentPaddingWidth >= widthSize) {
-                LogUtils.w(TAG, "You child view's width of WaterFlowLayout " +
-                        "should not larger than parent's width.");
-                // 单个子View超过父控件宽度，直接换行
-                if (0 == rowWith) {
-                    // 某一行不存在其他控件
-                    realHeight += childHeight;
-                } else {
-                    // 某一行已存在其他控件
-                    realHeight += rowHeight;
-                    realHeight += childHeight;
-                    rowWith = 0;
-                    rowHeight = 0;
-                }
-                realWidth = widthSize;// 高度设置为父布局给定的最大值
-            } else if (rowWith + childWidth + currentPaddingWidth > widthSize) {
+            if (rowWith + childWidth + currentPaddingWidth > widthSize) {
                 // 换行
-                realHeight += rowHeight;
-                realWidth = Math.max(realWidth, rowWith);
-                rowHeight = childHeight;
-                rowWith = childWidth;
+                if (0 == rowWith) {
+                    // 当前控件添加在当前行
+                    realHeight += childHeight;
+                    rowHeight = 0;
+                    rowWith = 0;
+                } else {
+                    // 当前控件添加在下一行
+                    realHeight += rowHeight;
+                    realWidth = Math.max(realWidth, rowWith);
+                    rowHeight = childHeight;
+                    rowWith = childWidth;
+                }
             } else {
                 // 同行追加
                 rowWith += childWidth;
@@ -102,7 +95,8 @@ public class WaterFlowLayout extends ViewGroup {
             }
 
             // 最后一行
-            if (getChildCount() - 1 == i) {
+            if (getChildCount() - 1 == i
+                    && 0 != rowWith) {
                 realHeight += rowHeight;
                 realWidth = Math.max(realWidth, rowHeight);
             }
@@ -120,7 +114,10 @@ public class WaterFlowLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        LogUtils.d(TAG, "onLayout");
+        LogUtils.i(TAG, "onLayout");
+        if (0 >= getChildCount()) {
+            return;
+        }
         sortChildrenByLine();
         layoutChildrenByLine(l, t, r, b);
     }
@@ -223,5 +220,10 @@ public class WaterFlowLayout extends ViewGroup {
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new MarginLayoutParams(getContext(), attrs);
+    }
+
+    @Override
+    protected LayoutParams generateDefaultLayoutParams() {
+        return new MarginLayoutParams(super.generateDefaultLayoutParams());
     }
 }

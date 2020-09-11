@@ -2,4 +2,12 @@
     <string name="layout_app_name">module_layout</string>
     <string name="layout_text_test1">Test1</string>
     <string name="layout_text_test2">Test2</string>
+    <string name="layout_text_test3">Test3</string>
+    <string name="layout_text_test4">Test4</string>
+    <string name="layout_text_test5">Test5</string>
+    <string name="layout_text_test6">Test6</string>
+    <string name="layout_text_test7">Test7</string>
+    <string name="layout_text_test8">Test8</string>
+    <string name="layout_text_test9">Test9</string>
+    <string name="layout_text_test10">Test10</string>
 </resources>
